@@ -5,7 +5,7 @@ void CadastroFuncionarios::carregarDados() {
 
 	loja.clear(); // Limpando o vector
 	
-	fstream myfile("funcionarios.txt");
+	fstream myfile("funcionarios.csv");
     
     std::string line, nome;
 	int pos, div, tam, conv, i;
@@ -23,7 +23,7 @@ void CadastroFuncionarios::carregarDados() {
   	myfile.close();
   	div = cont / 5;
   	
-  	myfile.open("funcionarios.txt");
+  	myfile.open("funcionarios.csv");
 
 		for (i = 0; i < div ; i++) {
 			
@@ -103,11 +103,11 @@ void CadastroFuncionarios::carregarDados() {
 	myfile.close(); 
 }
 
-/** Funcao que e carrega dados armazenados no arquivo.txt dos funcionarios */
+/** Funcao que e carrega dados armazenados no arquivo.csv dos funcionarios */
 void CadastroFuncionarios::atualizarDados() 
 {
 	ofstream myfile;
-	myfile.open ("funcionarios.txt", ios::out | ios::app | ios::binary);
+	myfile.open ("funcionarios.csv", ios::out | ios::app | ios::binary);
 
 	for( unsigned i = 0; i < loja.size(); i++ )
 	{
@@ -124,10 +124,10 @@ void CadastroFuncionarios::atualizarDados()
 	myfile.close();
 }
 
-/** Funcao que salva os dados dos funcionarios em um arquivo.txt */
+/** Funcao que salva os dados dos funcionarios em um arquivo.csv */
 void CadastroFuncionarios::salvarDados() 
 {
-	ofstream myfile ("funcionarios.txt");
+	ofstream myfile ("funcionarios.csv");
 	if (myfile.is_open())
 	{
 		for( unsigned i = 0; i < loja.size(); i++ )
@@ -147,7 +147,7 @@ void CadastroFuncionarios::salvarDados()
 }
 
 CadastroFuncionarios::CadastroFuncionarios() {
-	//ofstream myfile ("funcionarios.txt");
+	//ofstream myfile ("funcionarios.csv");
 
 }
 
@@ -202,6 +202,8 @@ void CadastroFuncionarios::inserirFuncionarios() {
     	cin.ignore();
     	getline(cin, nome);
     	informacoes->setEspecialidade(nome);
+		
+		cout << "Funcionario inserido pressione Enter para confirmar";		    	
 		
     	cout << "\n";  	
 

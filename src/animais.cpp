@@ -5,7 +5,7 @@ void CadastroAnimal::carregaDado() {
 
 	lista.clear(); // Limpando o vector
 	
-	fstream myfile("animais.txt");
+	fstream myfile("animais.csv");
     
     std::string line, nome;
 	int pos, div, tam, conv, i;
@@ -23,7 +23,7 @@ void CadastroAnimal::carregaDado() {
   	myfile.close();
   	div = cont / 5;
   	
-  	myfile.open("animais.txt");
+  	myfile.open("animais.csv");
 
 		for (i = 0; i < div ; i++) {
 			
@@ -94,11 +94,11 @@ void CadastroAnimal::carregaDado() {
 	myfile.close(); 
 }
 
-/** Funcao que e carrega dados armazenados no arquivo.txt dos animais */
+/** Funcao que e carrega dados armazenados no arquivo.csv dos animais */
 void CadastroAnimal::atualizaDado() 
 {
 	ofstream myfile;
-	myfile.open ("animais.txt", ios::out | ios::app | ios::binary);
+	myfile.open ("animais.csv", ios::out | ios::app | ios::binary);
 
 	for( unsigned i = 0; i < lista.size(); i++ )
 	{
@@ -114,10 +114,10 @@ void CadastroAnimal::atualizaDado()
 	myfile.close();
 }
 
-/** Funcao que salva os dados dos animais em um arquivo.txt */
+/** Funcao que salva os dados dos animais em um arquivo.csv */
 void CadastroAnimal::salvaDado() 
 {
-	ofstream myfile ("animais.txt");
+	ofstream myfile ("animais.csv");
 	if (myfile.is_open())
 	{
 		for( unsigned i = 0; i < lista.size(); i++ )
@@ -136,7 +136,7 @@ void CadastroAnimal::salvaDado()
 }
 
 CadastroAnimal::CadastroAnimal() {
-	//ofstream myfile ("animais.txt");
+	//ofstream myfile ("animais.csv");
 
 }
 
@@ -190,6 +190,8 @@ void CadastroAnimal::inserirAnimal() {
     	cin.ignore();
     	getline(cin, nome);
     	informacoes->setBatismo(nome);
+		
+		cout << "Animal inserido pressione Enter para confirmar";		    	
 
     	cout << "\n";  	
 
