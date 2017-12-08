@@ -11,7 +11,7 @@ using namespace std;
 #include "animais.hpp"
 
 int main (){
-	int opc, matricula;
+	int opc, matricula, id;
 	std::string nome;
 
 	CadastroFuncionarios PetFera;
@@ -26,13 +26,16 @@ int main (){
   		cout << "(1) Inserir funcionarios" << endl;
   		cout << "(2) Carregar dados existentes" << endl;
   		cout << "(3) Exibir funcionarios" << endl;
-		cout << "(4) Buscar e remover funcionario por matricula" << endl;
-		cout << "(5) Buscar e remover funcionario por nome" << endl;
+		cout << "(4) Buscar e remove funcionario por matricula" << endl;
+		cout << "(5) Buscar e remove funcionario por nome" << endl;
 		cout << "(6) Inserir Animal no Sistema" << endl;
+		cout << "(7) Lista de Animais" << endl;
+		cout << "(8) Buscar e remove Animal por Id" << endl;
+		cout << "(9) Buscar e remove Animal por nome" << endl;	
   		cout << "(0) Sair" << endl;
 		cin >> opc;
 
- 	    while(opc > 6 or opc < 0) 
+ 	    while(opc > 9 or opc < 0) 
 		{
 			cout << "Informe uma opção valida: ";
 			cin >> opc;
@@ -46,7 +49,7 @@ int main (){
 				  break;
 				case 2:
 				  	PetFera.carregarDados();
-					//bixo.carregaDado();
+					bixo.carregaDado();
 					cout << "\nDados Carregados\n";
 					cout << "\nVoltando ao Menu Funcionarios, Pressione Enter para continuar.\n";
 					cin.ignore().get();
@@ -70,7 +73,26 @@ int main (){
 				  break;	
 				case 6:
 					cout << "\nCadastrar Animal.\n";
-					bixo.inserirAnimal();			
+					bixo.inserirAnimal();	
+					cin.ignore().get();	
+				  break;	
+				case 7:
+					cout << "\nLista de Animais.\n";	
+					bixo.imprimeAnimal();
+					cin.ignore().get();	
+				  break;
+				case 8:
+					cout << "\nBuscar Animal por Id.\n";
+					cin >> id;
+					bixo.buscaAnimal(id);
+					cin.ignore().get();	
+				  break;				
+				case 9:
+					cout << "\nBuscar Animal por Nome.\n";
+					cin >> nome;				  	
+					bixo.buscaNome(nome);
+					cin.ignore().get();	
+				  break;
 				case 0:
 					exit(EXIT_SUCCESS);
 				default:
