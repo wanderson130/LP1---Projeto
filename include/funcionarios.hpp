@@ -55,7 +55,6 @@ private:
 
 public:
 	Funcionarios() = default;
-	//Funcionarios() : pessoa{} {}
 	//~Funcionarios();
 	
 	void setId(int id){this->id = id;}

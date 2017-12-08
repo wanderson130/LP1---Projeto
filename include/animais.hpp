@@ -1,7 +1,13 @@
 #ifndef ANIMAIS_HPP
 #define ANIMAIS_HPP
 
-#include "includes.hpp"
+#include <iostream>
+#include <string>
+#include <vector>
+#include <iomanip>
+#include <fstream>
+#include <cstring>
+#include <cstdlib> 
 
 using namespace std;
 
@@ -17,62 +23,47 @@ private:
 	string batismo;
 
 public:
-	Animal();
-	Animal(int id, string classe, string nome, string cientifico, char sexo, float tamanho, string dieta, string batismo);
-
-	int getId();
-	void setId(const int id);	
-
-	string getClasse();
-	void setClasse(const string classico);
+	Animal() = default;
+	//~Animais();
 	
-	string getNome();
-	void setNome(const string nome);
-	
-	string getCientifico();
-	void setCientifico(const string cientifico);
-	
-	char getSexo();
-	void setSexo(const char sexo);
+	void setId(const int id){ this->id = id;}
+	int getId(){ return this->id;}
 
-	float getTamanho();
-	void setTamanho(const float tamanho);
-	
-	string getDieta();
-	void setDieta(const string dieta);
+	string getClasse(){ return this->classe;}
+	void setClasse(const string classe){ this->classe = classe;}
 
-	string getBatismo();
-	void setBatismo(const string batismo);
+	string getNome(){return this->nome;}
+	void setNome( const string nome ) {this->nome = nome;}
 
-	void escrever(ostream& out) const
-	{	        
-		out << "Id:"  				  		<<      id     << endl;		
-		out << "Classe:"  				  	<<    classe   << endl;
-		out << "Nome:"					 	<<     nome    << endl;
-		out << "Cientifico:"  				<<  cientifico << endl;
-		out << "Sexo:"  				  	<<     sexo    << endl;
-		out << "Tamanho:"  				  	<<   tamanho   << endl;
-		out << "Dieta:"  				  	<<    dieta    << endl;
-		out << "Batismo:"  				  	<<   batismo   << endl;
-	}
+	string getCientifico(){ return this->cientifico;}
+	void setCientifico( string cientifico){ this->cientifico = cientifico;}
+
+	char getSexo(){return this->sexo;}
+	void setSexo( const char sexo ) {this->sexo = sexo;}
+
+	float getTamanho(){ return this->tamanho;}
+	void setTamanho(const float tamanho){ this->tamanho = tamanho;}
+
+	string getDieta(){return this->dieta;}
+	void setDieta( const string dieta ) {this->dieta = dieta;}
+
+	string getBatismo(){return this->batismo;}
+	void setBatismo( const string batismo ) {this->batismo = batismo;}
 };
 
-
 class CadastroAnimal {
-	friend class Cadastro;
-
 private:
   vector<Animal*> lista;
 
 public:
+  CadastroAnimal();
   void inserirAnimal();
-  int  buscarAnimal(int id) const;
-  void escrever(ostream& out) const;
-  void atualizarLista();
+  void imprimeAnimal();
+  void buscaNome(std::string nome);
+  void buscaAnimal(int id);
+  void atualizaDado();
   void salvaDado();
   void carregaDado();
 };
-
-ostream& operator<<(ostream& out, const CadastroAnimal& a);
 
 #endif /* PRODUTOS_HPP */

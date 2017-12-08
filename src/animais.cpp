@@ -1,129 +1,128 @@
-#include "../include/includes.hpp"
+#include "animais.hpp"
 
-Animal::Animal()
-{
-	this->id = 0, this->classe = "", this->nome = "", this->cientifico = "", this->sexo = 0, this->tamanho = 0, this->dieta ="", this->batismo ="";
-}
+/** Funcao que e responsavel pelo cadastro dos animais no sistema */
+void CadastroAnimal::carregaDado() {
 
-Animal::Animal(int id, string classe, string nome, string cientifico, char sexo, float tamanho, string dieta, string batismo)
-{
-	this->id = id;
-	this->classe = classe;
-	this->nome = nome;
-	this->cientifico = cientifico;
-	this->sexo = sexo;
-	this->tamanho = tamanho;
-	this->dieta = dieta;
-	this->batismo = batismo;	
-}
-
-int Animal::getId(){ return this->id;}
-void Animal::setId(const int id){ this->id = id;}
-
-string Animal::getClasse(){ return this->classe;}
-void Animal::setClasse(const string classe){ this->classe = classe;}
-
-string Animal::getNome(){return this->nome;}
-void Animal::setNome( const string nome ) {this->nome = nome;}
-
-string Animal::getCientifico(){ return this->cientifico;}
-void Animal::setCientifico( string cientifico){ this->cientifico = cientifico;}
-
-char Animal::getSexo(){return this->sexo;}
-void Animal::setSexo( const char sexo ) {this->sexo = sexo;}
-
-float Animal::getTamanho(){ return this->tamanho;}
-void Animal::setTamanho(const float tamanho){ this->tamanho = tamanho;}
-
-string Animal::getDieta(){return this->dieta;}
-void Animal::setDieta( const string dieta ) {this->dieta = dieta;}
-
-string Animal::getBatismo(){return this->batismo;}
-void Animal::setBatismo( const string batismo ) {this->batismo = batismo;}
-
-ostream& operator<<(ostream& out, const Animal* a) {
-	a->escrever(out);
-	return out;
-}
-
-void CadastroAnimal::inserirAnimal()
-{
-  	int n, quant;
-	float valor;
-	string nome;
-	char ch;	
+	lista.clear(); // Limpando o vector
 	
-    cout << "Informe quantos produtos deseja cadastrar: ";
-    cin >> quant;
+	fstream myfile("animais.txt");
     
-    for(int i = 0; i < quant; i++) {
-    	
-      Animal* animal = new Animal();
+    std::string line, nome;
+	int pos, div, tam, conv, i;
+	int cont{0};
+
+	if(!myfile)	// Verifica se já existe um arquivo chamado animais.
+		return;
 	
-	  cout << "Informe o ID do Animal: ";
-	  cin >> n;
-      animal->setId(n);
+  	// Faz a contagem do numero de linhas de um aquivo
+    while (!myfile.eof()) {
+		getline (myfile, line);
+		cont++;
+  	}
+  	cont--;
+  	myfile.close();
+  	div = cont / 5;
+  	
+  	myfile.open("animais.txt");
 
-	  cout << "Informe a Classe do Animal: ";
-      cin.ignore(0);
-      getline(cin, nome);
-      animal->setClasse(nome);			
+		for (i = 0; i < div ; i++) {
+			
+			Animal* informacoes = new Animal();
 
-      cout << "Informe o Nome do Animal: ";
-      cin.ignore(0);
-      getline(cin, nome);
-      animal->setNome(nome);		
-
-      cout << "Infome o Nome Cientifico do Animal: ";
-      cin.ignore();
-      getline(cin, nome);
-      animal->setCientifico(nome);
+			//--- ID ---
+			getline (myfile,line);
+			pos =  line.find(":",0);
+			tam = pos+1;
+			nome = line.substr(tam,pos-tam);
+			conv = stoi(nome);
+			informacoes->setId(conv);	
 		
-	  cout << "Infome o Sexo do Animal: ";
-      cin.ignore();
-      cin >> ch;
-      animal->setSexo(ch);		
-	
-	  cout << "Informe o Tamanho do Animal: ";
-	  cin >> valor;
-      animal->setTamanho(valor);
+			//--- CLASSE ---
+			getline (myfile,line);
+			pos =  line.find(":", 0);
+			tam = pos + 1;
+			nome = line.substr(tam, pos - tam);
+			informacoes->setClasse(nome);			
+			
+			//--- NOME ---
+			getline (myfile,line);
+			pos =  line.find(":", 0);
+			tam = pos + 1;
+			nome = line.substr(tam, pos - tam);
+			informacoes->setNome(nome);
 
-	  cout << "Infome a Dieta do Animal: ";
-      cin.ignore();
-      getline(cin, nome);
-      animal->setDieta(nome);
+			// --- CIENTIFICO ---
+			getline (myfile,line);
+			pos =  line.find(":",0);
+			tam = pos+1;
+			nome = line.substr(tam,pos-tam);
+			informacoes->setCientifico(nome);
+						
+			// --- SEXO ---
+			getline (myfile,line);
+			pos =  line.find(":",0);
+			tam = pos+1;
+			nome = line.substr(tam,pos-tam);
+			conv = stoi(nome);
+			informacoes->setSexo(conv);
 
-	  cout << "Infome o Nome de Batismo do Animal: ";
-      cin.ignore();
-      getline(cin, nome);
-      animal->setBatismo(nome);
-    	
-      cout << "\n--- Animal Cadastrado  ----\n\n";
+			//--- TAMANHO ---
+			getline (myfile,line);
+			pos =  line.find(":",0);
+			tam = pos+1;
+			nome = line.substr(tam,pos-tam);
+			conv = stoi(nome);
+			informacoes->setTamanho(conv);
 
-      cout << animal;
+			// --- DIETA ---
+			getline (myfile,line);
+			pos =  line.find(":",0);
+			tam = pos+1;
+			nome = line.substr(tam,pos-tam);
+			informacoes->setDieta(nome);
+			
+			// --- BATISMO ---
+			getline (myfile,line);
+			pos =  line.find(":",0);
+			tam = pos+1;
+			nome = line.substr(tam,pos-tam);
+			informacoes->setBatismo(nome);
+		
+			lista.push_back(informacoes);
+	    }
 
-      cout << "\n-----------------------------" << endl;
-
-	  cout << "Pressione Enter para continuar.\n";
-
-	  cin.ignore().get();
-
-	  lista.push_back(animal);
-	}
-
-	if(quant > 0)
-		this->salvaDado();
-
+	myfile.close(); 
 }
 
-void CadastroAnimal::salvaDado() {
-	ofstream myfile ("./files/animais.txt");
+/** Funcao que e carrega dados armazenados no arquivo.txt dos animais */
+void CadastroAnimal::atualizaDado() 
+{
+	ofstream myfile;
+	myfile.open ("animais.txt", ios::out | ios::app | ios::binary);
 
+	for( unsigned i = 0; i < lista.size(); i++ )
+	{
+	        myfile << "Id:"  				  	<< lista[i]->getId() << endl;
+			myfile << "Classe:"  			  	<< lista[i]->getClasse() << endl;
+			myfile << "Nome:"  				  	<< lista[i]->getNome() << endl;
+			myfile << "Cientifico:"			  	<< lista[i]->getCientifico() << endl;
+			myfile << "Sexo:"					<< lista[i]->getSexo() << endl; 
+			myfile << "Tamanho:"			  	<< lista[i]->getTamanho() << endl;
+			myfile << "Dieta:"  				<< lista[i]->getDieta() << endl;
+			myfile << "Batismo:"  			 	<< lista[i]->getBatismo() << endl;
+	}
+	myfile.close();
+}
+
+/** Funcao que salva os dados dos animais em um arquivo.txt */
+void CadastroAnimal::salvaDado() 
+{
+	ofstream myfile ("animais.txt");
 	if (myfile.is_open())
 	{
-		for( unsigned int i = 0; i < lista.size(); i++ )
+		for( unsigned i = 0; i < lista.size(); i++ )
 		{
-	        myfile << "Id:"  				  	<< lista[i]->getId() << endl;
+			myfile << "Id:"  				  	<< lista[i]->getId() << endl;
 			myfile << "Classe:"  			  	<< lista[i]->getClasse() << endl;
 			myfile << "Nome:"  				  	<< lista[i]->getNome() << endl;
 			myfile << "Cientifico:"			  	<< lista[i]->getCientifico() << endl;
@@ -133,143 +132,148 @@ void CadastroAnimal::salvaDado() {
 			myfile << "Batismo:"  			 	<< lista[i]->getBatismo() << endl;
 		}
 	}
-
 	myfile.close();
 }
 
-void CadastroAnimal::carregaDado() {
+CadastroAnimal::CadastroAnimal() {
+	//ofstream myfile ("animais.txt");
 
-	lista.clear();
-
-    std::string line, nome;
-
-	char ch;
-	int pos;
-	int cont =0;
-	int div;
-	int tam;
-	int conv;
-	float tamanho;
-	int i;
-
-  	fstream myfile("./files/animais.txt");
-  	
-    while (!myfile.eof()) {
-		getline (myfile, line);
-		cont++;
-  	}
-
-  	cont--;
-
-  	myfile.close();
-  	div = cont / 8;
-  	
-  	myfile.open("./files/animais.txt");
-  	
-		for (i = 0; i < div ; i++) {
-				
-			Animal* informacoes = new Animal();
-						
-			// --- ID --- 
-			getline (myfile,line);
-			pos =  line.find(":",0);
-			tam = pos+1;
-			nome = line.substr(tam,pos-tam);
-			conv = stoi(nome); //Convertemos o codigo para inteiro
-			informacoes->setId(conv);
-
-			// --- CLASSE ---
-			getline (myfile,line);
-			pos =  line.find(":",0);
-			tam = pos+1;
-			nome = line.substr(tam,pos-tam);
-			informacoes->setClasse(nome);
-
-			// --- NOME ---
-			getline (myfile,line);
-			pos =  line.find(":",0);
-			tam = pos+1;
-			nome = line.substr(tam,pos-tam);
-			informacoes->setNome(nome);
-			
-			// --- CIENTIFICO ---
-			getline (myfile,line);
-			pos =  line.find(":",0);
-			tam = pos+1;
-			nome = line.substr(tam,pos-tam);
-			informacoes->setCientifico(nome);
-	
-			// --- SEXO ---
-			getline (myfile,line);
-			pos =  line.find(":",0);
-			tam = pos+1;
-			nome = line.substr(tam,pos-tam);
-			informacoes->setSexo(ch);
-			
-			// --- TAMANHO ---
-			getline (myfile,line);
-			pos =  line.find(":",0);
-			tam = pos+1;
-			nome = line.substr(tam,pos-tam);
-			tamanho = stof(nome); //Convertemos o valor unitario para float.
-			informacoes->setTamanho(tamanho);
-			
-			// --- DIETA ---
-			getline (myfile,line);
-			pos =  line.find(":",0);
-			tam = pos+1;
-			nome = line.substr(tam,pos-tam);
-			informacoes->setDieta(nome);
-
-			// --- BATISMO ---
-			getline (myfile,line);
-			pos =  line.find(":",0);
-			tam = pos+1;
-			nome = line.substr(tam,pos-tam);
-			informacoes->setBatismo(nome);
-
-			lista.push_back(informacoes);
-	    }
-	myfile.close(); 
 }
-//------------------------------------------------------------------
-// Função que retorna o indice onde o produto se encontra
-int CadastroAnimal::buscarAnimal(int id) const {
- 	for(unsigned int i = 0; i < lista.size(); i++)
- 	{	
 
- 		if(lista[i]->getId() == id)
- 		{
-			return i;  
+/** Funcao que permite a insercao manual de animais no vetor */
+void CadastroAnimal::inserirAnimal() {
+  	
+  	int i, n, quant;
+	float k;
+	char c;
+	cout << "Informe quantos Animais voce quer cadastrar:";
+	cin >> quant;
+	string nome;
+    
+    for(i = 0; i < quant; i++)
+    {
+  		Animal *informacoes = new Animal();
+			
+    	cout << "Infome o ID do Animal: ";
+    	cin >> n;
+    	informacoes->setId(n);	
+		
+		cout << "Informe a Classe: ";
+    	cin.ignore();
+    	getline(cin, nome);
+    	informacoes->setClasse(nome);
+
+    	cout << "Informe o nome do Animal: ";
+    	cin.ignore();
+    	getline(cin, nome);
+    	informacoes->setNome(nome);
+
+		cout << "Informe o nome Cientifico: ";
+    	cin.ignore();
+    	getline(cin, nome);
+    	informacoes->setCientifico(nome);
+
+		cout << "Infome o Sexo do Animal: ";
+    	cin >> c;
+    	informacoes->setSexo(c);	
+
+		cout << "Infome o Tamanho: ";
+    	cin >> k;
+    	informacoes->setTamanho(k);			
+
+		cout << "Informe a Dieta: ";
+    	cin.ignore();
+    	getline(cin, nome);
+    	informacoes->setDieta(nome);
+
+		cout << "Informe o nome de Batismo: ";
+    	cin.ignore();
+    	getline(cin, nome);
+    	informacoes->setBatismo(nome);
+
+    	cout << "\n";  	
+
+		lista.push_back(informacoes);
+		
+	  }
+	salvaDado();
+}
+
+/** Funcao que imprime vetor de animais */
+void CadastroAnimal::imprimeAnimal() {	
+	for(unsigned i = 0; i < lista.size(); i++)
+		{
+			cout << setw(20) << left <<  "ID:"   			 << "\t" << lista[i]->getId() << endl;
+			cout << setw(20) << left <<  "Classe:" 			 << "\t" << lista[i]->getClasse() << endl;
+			cout << setw(20) << left <<  "Nome:" 			 << "\t" << lista[i]->getNome() << endl;
+			cout << setw(20) << left <<  "Cientifico:" 		 << "\t" << lista[i]->getCientifico() << endl;
+			cout << setw(20) << left <<  "Sexo:"     		 << "\t" << lista[i]->getSexo() << endl;
+			cout << setw(20) << left <<  "Tamanho:" 			 << "\t" << lista[i]->getTamanho() << endl;
+			cout << setw(20) << left <<  "Dieta:" 			 << "\t" << lista[i]->getDieta() << endl;
+			cout << setw(20) << left <<  "Batismo:" 			 << "\t" << lista[i]->getBatismo() << endl;			
+			cout << setw(20) << left <<  "-----------------------------" << endl;  
 		}
- 	}
-
- 	return -1;
 }
 
-void CadastroAnimal::escrever(ostream& out) const {
-
-
-	cout << "  ---------------------\n";
-	cout << " | Animais Registrados :|\n";
-	cout << "  ---------------------\n\n";
-
- 	for(unsigned int i = 0; i < lista.size(); i++)
- 	{	
-	        out << setw(20) << left <<  "ID:"   			 << "\t" << lista[i]->getId() << endl;
-			out << setw(20) << left <<  "Classe:" 			 << "\t" << lista[i]->getClasse() << endl;
-			out << setw(20) << left <<  "Nome:" 			 << "\t" << lista[i]->getNome() << endl;
-			out << setw(20) << left <<  "Cientifico:" 		 << "\t" << lista[i]->getCientifico() << endl;
-			out << setw(20) << left <<  "Sexo:"     		 << "\t" << lista[i]->getSexo() << endl;
-			out << setw(20) << left <<  "Tamanho:" 			 << "\t" << lista[i]->getTamanho() << endl;
-			out << setw(20) << left <<  "Dieta:" 			 << "\t" << lista[i]->getDieta() << endl;
-			out << setw(20) << left <<  "Batismo:" 			 << "\t" << lista[i]->getBatismo() << endl;			
-			out << setw(20) << left <<  "-----------------------------" << endl;   
- 	}
-}
-
-ostream& operator<<(ostream& out,const CadastroAnimal& a) 
+/** Funcao que busca animas pelo numero de id */
+void CadastroAnimal::buscaAnimal(int id)
 {
-    a.escrever(out);
-    return out;
+	for(unsigned i = 0; i < lista.size(); i++)
+	{
+		if( id == lista[i]->getId())
+		{
+			cout << "		 -------------------\n";
+			cout << "		| Animal Encontrado |\n";
+			cout << " 		 -------------------\n\n";
+			cout << setw(20) << left <<  "ID:"   			 << "\t" << lista[i]->getId() << endl;
+			cout << setw(20) << left <<  "Classe:" 			 << "\t" << lista[i]->getClasse() << endl;
+			cout << setw(20) << left <<  "Nome:" 			 << "\t" << lista[i]->getNome() << endl;
+			cout << setw(20) << left <<  "Cientifico:" 		 << "\t" << lista[i]->getCientifico() << endl;
+			cout << setw(20) << left <<  "Sexo:"     		 << "\t" << lista[i]->getSexo() << endl;
+			cout << setw(20) << left <<  "Tamanho:" 			 << "\t" << lista[i]->getTamanho() << endl;
+			cout << setw(20) << left <<  "Dieta:" 			 << "\t" << lista[i]->getDieta() << endl;
+			cout << setw(20) << left <<  "Batismo:" 			 << "\t" << lista[i]->getBatismo() << endl;			
+			cout << setw(20) << left <<  "-----------------------------" << endl;  
+			
+			lista.erase(lista.begin()+i);
+			atualizaDado();
+			salvaDado();
+			
+			/* remove animal encontrado na posicao i */	
+			cout << setw(20) << left <<  "Animal removido com sucesso" << endl;  
+			break;
+
+		}
+	}
+}
+
+/** Funcao que busca animais pelo nome */
+void CadastroAnimal::buscaNome(std::string nome)
+{
+	for(unsigned i = 0; i < lista.size(); i++)
+	{
+		if( nome == lista[i]->getNome())
+		{
+			cout << "		 -------------------\n";
+			cout << "		| Animal Encontrado |\n";
+			cout << " 		 -------------------\n\n";
+			cout << setw(20) << left <<  "ID:"   			 << "\t" << lista[i]->getId() << endl;
+			cout << setw(20) << left <<  "Classe:" 			 << "\t" << lista[i]->getClasse() << endl;
+			cout << setw(20) << left <<  "Nome:" 			 << "\t" << lista[i]->getNome() << endl;
+			cout << setw(20) << left <<  "Cientifico:" 		 << "\t" << lista[i]->getCientifico() << endl;
+			cout << setw(20) << left <<  "Sexo:"     		 << "\t" << lista[i]->getSexo() << endl;
+			cout << setw(20) << left <<  "Tamanho:" 			 << "\t" << lista[i]->getTamanho() << endl;
+			cout << setw(20) << left <<  "Dieta:" 			 << "\t" << lista[i]->getDieta() << endl;
+			cout << setw(20) << left <<  "Batismo:" 			 << "\t" << lista[i]->getBatismo() << endl;			
+			cout << setw(20) << left <<  "-----------------------------" << endl;  
+			
+			lista.erase(lista.begin()+i);
+			atualizaDado();
+			salvaDado();			
+
+			/* remove animal encontrado na posicao i */			
+			cout << setw(20) << left <<  "Animal removido com sucesso" << endl;  			
+			break;
+		}
+	}
 }

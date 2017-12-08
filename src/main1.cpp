@@ -1,4 +1,12 @@
-#include<iostream>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <iomanip>
+#include <fstream>
+#include <cstring>
+
+using namespace std;
+
 #include "funcionarios.hpp"
 #include "animais.hpp"
 
@@ -7,10 +15,10 @@ int main (){
 	std::string nome;
 
 	CadastroFuncionarios PetFera;
-	//CadastroAnimal bixo;
-
 	PetFera.carregarDados();
-	//bixo.carregaDado();
+
+	CadastroAnimal bixo;					
+	bixo.carregaDado();
 	
 	do
 	{
@@ -62,7 +70,7 @@ int main (){
 				  break;	
 				case 6:
 					cout << "\nCadastrar Animal.\n";
-					//bixo.inserirAnimal();			
+					bixo.inserirAnimal();			
 				case 0:
 					exit(EXIT_SUCCESS);
 				default:
